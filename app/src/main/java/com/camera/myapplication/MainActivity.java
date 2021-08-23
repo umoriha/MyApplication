@@ -18,6 +18,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     private final static int REQUEST_CAMERA = 20210822;
     public String currentPhotoPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
-
             File PhotoFile = null;
             try {
                 PhotoFile = createImageFile();
@@ -40,18 +40,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CAMERA) {
-            if(data.getExtras() != null) {
-                //保存処理
-                System.out.print("未実装");
-            }
-        }
-    }
+
     private File createImageFile() throws IOException {
-        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -62,4 +53,16 @@ public class MainActivity extends AppCompatActivity {
         currentPhotoPath = image.getAbsolutePath();
         return  image;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CAMERA) {
+            if(data.getExtras() != null) {
+                //保存処理
+                System.out.print("未実装");
+            }
+        }
+    }
+
 }
